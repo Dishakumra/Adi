@@ -1,0 +1,60 @@
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+class Node { 
+  
+    int data; 
+    Node left, right; 
+  
+    Node(int d) { 
+        data = d; 
+        left = right = null; 
+    } 
+}
+class GFG {
+    public static Node  tree(int pre[],int n)
+    {
+        Node root=new Node(pre[0]);
+        Stack<Node> st= new Stack<Node>();
+        st.push(root);
+        for(int i=1;i<n;i++)
+        {
+            Node temp=null;
+             while(!st.isEmpty()&&pre[i]>st.peek().data)
+                {
+                  temp=st.pop();
+                }
+                if(temp!=null)
+                {
+                    temp.right=new Node(pre[i]);
+                     st.push(temp.right);
+                }
+                   else { 
+                temp = st.peek(); 
+                temp.left = new Node(pre[i]); 
+                st.push(temp.left); 
+            } 
+        }
+        return root;
+    }
+       public static void printInorder(Node node) { 
+        if (node == null) { 
+            return; 
+        } 
+        printInorder(node.left); 
+        System.out.print(node.data + " "); 
+        printInorder(node.right); 
+    }
+	public static void main (String[] args) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int arr[]=new int[n];
+		for(int i=0;i<n;i++)
+		{
+		    arr[i]=sc.nextInt();
+		}
+		Node root=tree(arr,n);
+		printInorder(root);
+	}
+}
